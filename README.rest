@@ -1,0 +1,58 @@
+.. vim: ft=rst sts=2 sw=2 tw=82
+.. default-role:: strong
+
+.. This file is marked up using reStructuredText.
+   Lines beginning with ".." are reST directives.
+   "foo_" or "`foo bar`_" is a link, defined at ".. _foo" or
+   ".. _foo bar".
+   "::" introduces a literal block (usually some form of code).
+   "`foo`" is some kind of identifier.
+   Suspicious backslashes in the text ("`std::string`\s") are required
+   for reST to recognize the preceding character as syntax.
+
+.. parsed-literal::
+
+  `NAME`
+       `fstray` — List files of unknown origin
+
+  `SYNOPSIS`
+       `fstray` `PREFIX`
+
+  `DESCRIPTION`
+       `fstray` lists all files under `PREFIX` which do not belong to any
+       installed package.
+
+       `fstray` queries the *rpm(8)* database for a list of all installed
+       files twice, before (**q1**) and after (**q2**) producting a list of all
+       non-directory paths under `PREFIX` (**fs**).  The output of `fstray` is
+       the list of all paths in the filesystem which were not found in either
+       *rpm(8)* database query result:
+
+          (fs - q1) & (fs - q2)
+
+       `PREFIX`
+           An absolute path, must exist.
+
+  `ENVIRONMENT`
+       `fstray` itself does not use any environment variables.
+       It is, however, implemented in terms of third-party commands which
+       do use them.  In particular, `fstray` may be influenced by
+       environment variables used by *sh(1)*, *mktemp(1)*, *rpm(8)*,
+       *sudo(8)*.
+
+  `DIAGNOSTICS`
+     Exit code
+       `fstray` exits with 0 on success, and with >0 otherwise.
+
+  `SEE ALSO`
+       *sh(1)*, *mktemp(1)*, *rpm(8)*, *sudo(8)*.
+
+  `AUTHORS`
+       `fstray` and this manual page are written by ⟨neuhauser@sigpipe.cz⟩.
+
+       See ⟨http://github.com/roman-neuhauser/fstray/⟩.
+
+  `BUGS`
+       No doubt plentiful.  Please report them at
+       ⟨https://github.com/roman-neuhauser/fstray/issues⟩.
+

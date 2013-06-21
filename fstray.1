@@ -1,0 +1,109 @@
+.\" This document is in the public domain.
+.\" vim: fdm=marker
+.
+.\" FRONT MATTER {{{
+.Dd Oct 10, 2012
+.Os
+.Dt FSTRAY 1
+.
+.Sh NAME
+.Nm fstray
+.Nd List files of unknown origin
+.\" FRONT MATTER }}}
+.
+.\" SYNOPSIS {{{
+.Sh SYNOPSIS
+.Nm
+.Ar PREFIX
+.\" SYNOPSIS }}}
+.
+.\" DESCRIPTION {{{
+.Sh DESCRIPTION
+.Nm
+lists all files under
+.Ar PREFIX
+which do not belong to any installed package.
+.Pp
+.Nm
+queries the
+.Xr rpm 8
+database
+for a list of all installed files twice, before
+.Pq Li q1
+and after
+.Pq Li q2
+producting a list of all non-directory paths under
+.Ar PREFIX
+.Pq Li fs .
+The output of
+.Nm
+is the list of all paths in the filesystem which were not
+found in either
+.Xr rpm 8
+database query result:
+.
+.Bd -literal -offset "xxx"
+(fs - q1) & (fs - q2)
+.Ed
+.
+.Bl -tag -width "xx"
+.It Ar PREFIX
+An absolute path, must exist.
+.El
+.
+.\" DESCRIPTION }}}
+.\" .Sh IMPLEMENTATION NOTES
+.\" ENVIRONMENT {{{
+.Sh ENVIRONMENT
+.Nm
+itself does not use any environment variables.
+It is, however, implemented in terms of third-party commands
+which
+.Em do
+use them.
+In particular,
+.Nm
+may be influenced by environment variables used by
+.Xr sh 1 ,
+.Xr mktemp 1 ,
+.Xr rpm 8 ,
+.Xr sudo 8 .
+.\" ENVIRONMENT }}}
+.\" .Sh FILES
+.\" EXAMPLES {{{
+.\" .Sh EXAMPLES
+.\" EXAMPLES }}}
+.\" DIAGNOSTICS {{{
+.Sh DIAGNOSTICS
+.Ss Exit code
+.Nm
+exits with
+.Li 0
+on success, and with
+.Li >0
+otherwise.
+.
+.\" DIAGNOSTICS }}}
+.\" .Sh COMPATIBILITY
+.\" .Sh SEE ALSO {{{
+.Sh SEE ALSO
+.Xr rpm 8
+.\" .Sh SEE ALSO }}}
+.\" .Sh STANDARDS
+.\" .Sh HISTORY
+.\" AUTHORS {{{
+.Sh AUTHORS
+.
+.Nm
+and this manual page are written by
+.Aq neuhauser@sigpipe.cz .
+.Pp
+See
+.Aq http://github.com/roman-neuhauser/fstray/ .
+.\" AUTHORS }}}
+.\" BUGS {{{
+.Sh BUGS
+No doubt plentiful.
+Please report them at
+.Aq https://github.com/roman-neuhauser/fstray/issues .
+.\" BUGS }}}

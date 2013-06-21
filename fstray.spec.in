@@ -1,0 +1,40 @@
+# norootforbuild
+
+Name:           fstray
+Version:        __VERSION__
+Release:        0
+License:        MIT
+Summary:        Lists files of unknown origin
+Url:            https://github.com/roman-neuhauser/%{name}
+Group:          Productivity/File utilities
+Requires:       coreutils
+Source:         %{name}-%{version}.tar.gz
+BuildArch:      noarch
+BuildRequires:  coreutils
+BuildRequires:  filesystem
+BuildRequires:  gzip
+BuildRequires:  make
+Requires:       rpm
+Requires:       sudo
+BuildRoot:      %_tmppath/%name-%version-build
+
+%define fstray_make make PREFIX=%{_prefix} MANDIR=%{_mandir}
+
+%description
+Fstray lists all files which do not belong to any installed package.
+
+%prep
+%setup -q
+
+%build
+%fstray_make all
+
+%install
+%fstray_make install DESTDIR=%{buildroot}
+
+%files
+%defattr(-,root,root)
+%{_bindir}/fstray
+%{_mandir}/man1/fstray.1.gz
+
+%changelog

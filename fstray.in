@@ -1,0 +1,49 @@
+#!/bin/sh
+
+set -o nounset
+set -o errexit
+set -o posix
+
+packaged() # {{{
+{
+  local root="${1?}" n=${2?}
+  local f="plist.$n"
+  rpm -qla | grep -F "$root/" > "$f.tmp"
+  sort -u "$f.tmp" > "$f"
+} # }}}
+extras() # {{{
+{
+  : ${1?}
+  comm -13 "plist.$1" fs > "extras.$1"
+} # }}}
+installed() # {{{
+{
+  : ${1?}
+  sudo find "$1" ! -type d > fs.tmp
+  sort -u fs.tmp > fs
+} # }}}
+result() # {{{
+{
+  comm -12 extras.1 extras.2
+} # }}}
+cleanup() # {{{
+{
+  : ${wdir?}
+  cd /
+  rm -rf "$wdir"
+} # }}}
+
+root="$(echo "${1?}" | sed -e 's:/*$::')"
+wdir="$(mktemp -d)"
+
+trap cleanup EXIT
+
+packaged "$root" 1
+installed "$root"
+packaged "$root" 2
+
+extras 1
+extras 2
+
+result
+
