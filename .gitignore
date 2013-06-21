@@ -1,0 +1,8 @@
+.*.sw?
+.sw?
+*.core
+*.html
+*.o
+/.bs-update
+/fstray
+/fstray.1.gz
